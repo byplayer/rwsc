@@ -5,7 +5,7 @@ module Rwsc
 
   # = ItemSearch class
   # this class is ItemSearch API wrapper .
-  class ItemSearch
+  class ItemSearch < ResultItem
     # == find item .
     def self.find(opts)
       if opts.nil?
