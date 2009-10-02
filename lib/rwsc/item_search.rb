@@ -22,7 +22,7 @@ module Rwsc
         end
       end
 
-      self.rws_call(opts | ADD_RWSC_OPTS)
+      self.rws_call(opts.merge(ADD_RWSC_OPTS))
     end
 
     private
