@@ -4,7 +4,7 @@ require File.expand_path(File.join(File.dirname(__FILE__),
                                    '..', 'spec_helper'))
 require 'rwsc/config'
 
-describe Rwsc::Config do
+describe Rwsc::Config, "proxy_host" do
   subject { Rwsc::Config.proxy_host }
 
   it { should be_nil }
@@ -12,9 +12,11 @@ describe Rwsc::Config do
   it "set proxy host" do
     proxy_host_name = "test.proxy.com"
     Rwsc::Config.proxy_host = proxy_host_name
-    Rwsc::Config.proxy_host.should == proxy_host_name
+    should == proxy_host_name
   end
+end
 
+describe Rwsc::Config, "proxy_port" do
   subject { Rwsc::Config.proxy_port }
 
   it { should be_nil }
