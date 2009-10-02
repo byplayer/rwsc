@@ -4,7 +4,18 @@ module Rwsc
 
   # = this class is ResultItem base class .
   class ResultItem
-    attr_accessor :args
-    attr_accessor :status
+    def method_missing(name, *args)
+      @data_hash ||= {}
+
+      method_name = name.to_s
+
+      if method_name  =~ /(.*)=$/
+        @data_hash[$1] = *args
+      elsif args.nil? || args.empty?
+        return  @data_hash[method_name]
+      end
+
+      nil
+    end
   end
 end

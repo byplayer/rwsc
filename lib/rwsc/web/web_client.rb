@@ -9,12 +9,12 @@ module Rwsc
 
     # = this class is Rakuten WebSearch web client .
     class WebClient
-      # = this method call webservice api .
+      # == this method call webservice api .
       def self.get_result(opts)
         WebClient.new.call_http(opts)
       end
 
-      # = try proxy connect
+      # == try proxy connect
       # use proxy connect if set proxy configuration .
       def call_http(opts)
         uri = generate_uri(opts)
@@ -28,7 +28,7 @@ module Rwsc
       end
 
       private
-      # = generate uri object from opts .
+      # == generate uri object from opts .
       def generate_uri(opts)
         url = Rwsc::CONST::WS_URL + "?"
         if opts
@@ -40,27 +40,25 @@ module Rwsc
         URI.parse(url)
       end
 
-      # = parse xml items
+      # == parse xml items
       def parse_result(doc)
         @item_search = ItemSearch.new
         parse_status(doc)
         parse_args(doc)
+        parse_common_info(doc)
+        parse_items(doc)
 
         @item_search
       end
 
-      # = parse status
+      # == parse status
       # if status is not success, this function raise
       #
       def parse_status(doc)
         status = Status.new
-        doc.xpath('/Response/header:Header/Status', doc.namespaces).each do |s|
-          status.status = s.content
-        end
-
-        doc.xpath('/Response/header:Header/StatusMsg', doc.namespaces).each do |m|
-          status.status_msg = m.content
-        end
+        status.status = first_item_content(doc, '/Response/header:Header/Status')
+        status.status_msg =
+          first_item_content(doc, '/Response/header:Header/StatusMsg')
         @item_search.status = status
 
         unless @item_search.status.status == Status::SUCCESS
@@ -69,7 +67,7 @@ module Rwsc
         end
       end
 
-      # = parse ARG items
+      # == parse ARG items
       def parse_args(doc)
         args = []
         doc.xpath('/Response/header:Header/Args/Arg', doc.namespaces).each do |a|
@@ -79,6 +77,90 @@ module Rwsc
         end
 
         @item_search.args = args
+      end
+
+      # == parse common info
+      def parse_common_info(doc)
+        {
+          'count' => 'count',
+          'page' => 'page',
+          'first' => 'first',
+          'last' => 'last',
+          'hits'=> 'hits',
+          'carrier' => 'carrier',
+          'pageCount' => 'page_count',
+        }.each do |xml_tag, func|
+          @item_search.send("#{func}=",
+            first_item_content(doc,
+              "/Response/Body/itemSearch:ItemSearch/#{xml_tag}"))
+        end
+      end
+
+      ITEM_ELEMS = {
+        "itemName" => "item_name",
+        "itemCode" => "item_code",
+        "itemPrice" => "item_price",
+        "itemCaption" => "item_caption",
+        "itemUrl" => "item_url",
+        "affiliateUrl" => "affiliate_url",
+        "imageFlag" => "image_flag",
+        "smallImageUrl" => "small_image_url",
+        "mediumImageUrl" => "medium_image_url",
+        "availability" => "availability",
+        "taxFlag" => "tax_flag",
+        "postageFlag" => "postage_flag",
+        "creditCardFlag" => "credit_card_flag",
+        "shopOfTheYearFlag" => "shop_of_the_year_flag",
+        "affiliateRate" => "affiliate_rate",
+        "startTime" => "start_time",
+        "endTime" => "end_time",
+        "reviewCount" => "review_count",
+        "reviewAverage" => "review_average",
+        "shopName" => "shop_name",
+        "shopCode" => "shop_code",
+        "shopUrl" => "shop_url",
+        "genreId" => "genre_id",
+      }
+
+      # == parse items
+      def parse_items(doc)
+        items = []
+
+        doc.xpath('/Response/Body/itemSearch:ItemSearch/Items/Item',
+                  doc.namespaces).each do |i|
+          item = ResultItem.new
+
+          ITEM_ELEMS.each do |xml_tag, func|
+            item.send("#{func}=",
+                      first_item_content(i, xml_tag))
+          end
+
+          items << item
+        end
+
+        @item_search.items = items
+      end
+
+      # == get first item
+      # if item not exists, return nil
+      def first_item(doc, xpath)
+        items = doc.xpath(xpath, doc.namespaces)
+        if items && !items.empty?
+          return items.first
+        end
+
+        nil
+      end
+
+      # == get first item content
+      # if item not exist, return nil
+      def first_item_content(doc, xpath)
+        item = first_item(doc, xpath)
+        if item
+          return item.content
+        end
+
+        nil
       end
     end
   end
