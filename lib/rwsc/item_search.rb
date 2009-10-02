@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+require 'rwsc/web/web_client'
+
 module Rwsc
 
   # = ItemSearch class
@@ -54,7 +56,7 @@ module Rwsc
 
     # == Rakuten web service call function
     def self.rws_call(opts)
-
+      Rwsc::Web::WebClient.get_result(opts)
     end
   end
 end
