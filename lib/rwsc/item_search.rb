@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-require 'rwsc/arg_error'
-
 module Rwsc
+
   # = ItemSearch class
   # this class is ItemSearch API wrapper .
   class ItemSearch
@@ -28,6 +27,7 @@ module Rwsc
 
     private
     MUST_ITEMS = [:developerId]
+
     def self.must_items
       MUST_ITEMS
     end
@@ -36,6 +36,7 @@ module Rwsc
                     :developerId, :affiliateId,
                     :keyword,
                    ]
+
     def self.accept_items
       ACCEPT_ITEMS
     end
