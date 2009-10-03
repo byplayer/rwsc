@@ -62,6 +62,7 @@ SPEC = Gem::Specification.new do |s|
   s.extra_rdoc_files = ["README.rdoc"]
 
   s.add_dependency('nokogiri')
+  s.add_dependency('rspec')
 end
 
 package_task = Rake::GemPackageTask.new(SPEC) do |pkg|
