@@ -28,7 +28,8 @@ PKG_FILES = FileList[
   'bin/**/*',
   'lib/**/*.rb',
   'test/**/*.rb',
-  'doc/**/*'
+  'doc/**/*',
+  'spec/**/*.rb',
 ]
 
 VER_NUM = `ruby -Ilib -e 'require "rwsc/version"; puts Rwsc::VERSION::STRING'`
