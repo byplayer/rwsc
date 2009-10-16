@@ -3,6 +3,7 @@
 require 'rwsc/config'
 require 'rwsc/version'
 require 'rwsc/const'
+require 'rwsc/utils/string_utils'
 require 'rwsc/operation'
 require 'rwsc/arg_error'
 require 'rwsc/status_error'
