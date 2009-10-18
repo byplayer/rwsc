@@ -1,0 +1,3 @@
+= RWSC
+The RWSC means Rakuten Web Service Client .
+This is Rakuten Web Service library for Ruby .
