@@ -96,32 +96,6 @@ module Rwsc
         end
       end
 
-      ITEM_ELEMS = {
-        "itemName" => "item_name",
-        "itemCode" => "item_code",
-        "itemPrice" => "item_price",
-        "itemCaption" => "item_caption",
-        "itemUrl" => "item_url",
-        "affiliateUrl" => "affiliate_url",
-        "imageFlag" => "image_flag",
-        "smallImageUrl" => "small_image_url",
-        "mediumImageUrl" => "medium_image_url",
-        "availability" => "availability",
-        "taxFlag" => "tax_flag",
-        "postageFlag" => "postage_flag",
-        "creditCardFlag" => "credit_card_flag",
-        "shopOfTheYearFlag" => "shop_of_the_year_flag",
-        "affiliateRate" => "affiliate_rate",
-        "startTime" => "start_time",
-        "endTime" => "end_time",
-        "reviewCount" => "review_count",
-        "reviewAverage" => "review_average",
-        "shopName" => "shop_name",
-        "shopCode" => "shop_code",
-        "shopUrl" => "shop_url",
-        "genreId" => "genre_id",
-      }
-
       # == parse items
       def parse_items(doc)
         items = []
@@ -130,9 +104,10 @@ module Rwsc
                   doc.namespaces).each do |i|
           item = ResultItem.new
 
-          ITEM_ELEMS.each do |xml_tag, func|
-            item.send("#{func}=",
-                      first_item_content(i, xml_tag))
+          i.children.each do |element|
+
+            item.send("#{Rwsc::Utils::StringUtils.underscore(element.name)}=",
+                      element.content)
           end
 
           items << item
