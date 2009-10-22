@@ -2,7 +2,6 @@
 require 'rwsc/web/web_client'
 
 module Rwsc
-
   # = ItemSearch class
   # this class is ItemSearch API wrapper .
   class ItemSearch < ResultItem
@@ -35,8 +34,25 @@ module Rwsc
     end
 
     ACCEPT_ITEMS = [
-                    :developerId, :affiliateId,
+                    :developerId,
+                    :affiliateId,
                     :keyword,
+                    :shopCode,
+                    :genreId,
+                    :catalogCode,
+                    :hits,
+                    :page,
+                    :sort,
+                    :minPrice,
+                    :maxPrice,
+                    :availability,
+                    :field,
+                    :carrier,
+                    :imageFlag,
+                    :orFlag,
+                    :NGKeyword,
+                    :genreInformationFlag,
+                    :purchaseType,
                    ]
 
     def self.accept_items
