@@ -23,7 +23,7 @@ module Rwsc
         end
       end
 
-      self.rws_call(opts.merge(ADD_RWSC_OPTS))
+      self.rws_call(opts.merge(self.add_rwsc_opts))
     end
 
     private
@@ -66,7 +66,7 @@ module Rwsc
     }
 
     # == get additional Rakuten web service call option
-    def add_rwsc_opts
+    def self.add_rwsc_opts
       ADD_RWSC_OPTS
     end
 
