@@ -8,7 +8,7 @@ describe Rwsc::ItemSearch do
     expect {
       Rwsc::ItemSearch.find(nil)
     }.should raise_error{ |e|
-      e.should be_instance_of Rwsc::ArgError
+      e.should be_instance_of(Rwsc::ArgError)
       e.to_s.should == "no options"
     }
   end
@@ -17,7 +17,7 @@ describe Rwsc::ItemSearch do
     expect {
       Rwsc::ItemSearch.find({})
     }.should raise_error { |e|
-      e.should be_instance_of Rwsc::ArgError
+      e.should be_instance_of(Rwsc::ArgError)
       e.to_s.should == "developerId needed"
     }
   end
@@ -29,7 +29,7 @@ describe Rwsc::ItemSearch do
                               :hogehoge => 'aa'
                             })
     }.should raise_error { |e|
-      e.should be_instance_of Rwsc::ArgError
+      e.should be_instance_of(Rwsc::ArgError)
       e.to_s.should == "hogehoge is invalid option"
     }
   end
