@@ -80,6 +80,24 @@ Rakuten Webservice client library
   def manifest
     PKG_FILES.to_a
   end
+
+  def tgz
+    base_name = "#{@package}-#{@version}"
+    tgz_name = "#{base_name}.tgz"
+
+    to_base = File.expand_path(File.join(File.dirname(__FILE__),"#{base_name}"))
+    FileUtils.mkdir_p(to_base)
+
+    manifest.each do |fname|
+      to_fname = File.join(to_base, fname)
+      FileUtils.mkdir_p(File.dirname(to_fname))
+      FileUtils.copy_entry(fname, to_fname)
+    end
+
+    sh "tar -c -z -f #{tgz_name} #{base_name}"
+
+    FileUtils.remove_entry(to_base)
+  end
 end
 
 # create rtask tasks
