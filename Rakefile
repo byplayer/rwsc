@@ -3,7 +3,10 @@ require 'rubygems'
 require 'rake'
 require 'spec/rake/spectask'
 require 'rake/gempackagetask'
+require "rtask"
 
+
+# return rspec options
 def set_speck_opt(t)
   t.spec_files = FileList['spec/**/*_spec.rb']
   t.spec_opts = ['--color']
@@ -16,6 +19,7 @@ Spec::Rake::SpecTask.new('spec') do |t|
   set_speck_opt t
 end
 
+# rspec coverate tasks
 desc "Run rcov"
 Spec::Rake::SpecTask.new('spec:rcov') do |t|
   set_speck_opt t
@@ -40,30 +44,43 @@ else
   CURRENT_VERSION = "0.0.0"
 end
 
-SPEC = Gem::Specification.new do |s|
-  s.name = "rwsc"
-  s.version = CURRENT_VERSION
-  s.summary = "Rakuten Webservice client library"
-  s.description = <<-EOF
-    Rakuten Webservice client library
-  EOF
-  s.authors = ["yukio.goto", "takayoshi.kohayakawa"]
-  s.email = ["yukio.goto@mail.rakuten.co.jp",
-             "takayoshi.kohayakawa@mail.rakuten.co.jp"]
-  s.homepage = "http://webservice.rakuten.co.jp/"
+class RTask
+  # overwrite init_spec
+  # get version automaticaly .
+  # get package files automaticaly .
+  def init_spec
+    ::Gem::Specification.new do |s|
+      s.name = "rwsc"
+      s.version = CURRENT_VERSION
+      s.summary = "Rakuten Webservice client library"
+      s.description = <<-EOS
+Rakuten Webservice client library
+      EOS
+      s.authors = ["byplayer", "takayoshi kohayakawa"]
+      s.email = ["byplayer100@gmail.com",
+                 "takayoshi.kohayakawa@mail.rakuten.co.jp"]
+      s.homepage = "http://webservice.rakuten.co.jp/"
 
-  s.files = PKG_FILES.to_a
+      s.files = PKG_FILES.to_a
 
-  s.require_path = 'lib'                         # Use these for libraries.
+      s.require_path = 'lib'
 
-  s.has_rdoc = true
-  s.rdoc_options << '--line-numbers' << '--inline-source' <<
-    "--main" << "README.rdoc" << "-c UTF-8"
-  s.extra_rdoc_files = ["README.rdoc"]
+      s.has_rdoc = true
+      s.rdoc_options << '--line-numbers' << '--inline-source' <<
+        "--main" << "README.rdoc" << "-c UTF-8"
+      s.extra_rdoc_files = ["README.rdoc"]
 
-  s.add_dependency('nokogiri')
-  s.add_dependency('rspec')
+      s.add_dependency('nokogiri')
+      s.add_dependency('rspec')
+    end
+  end
+
+  # overwrite
+  # get package files automaticaly
+  def manifest
+    PKG_FILES.to_a
+  end
 end
 
-package_task = Rake::GemPackageTask.new(SPEC) do |pkg|
-end
+# create rtask tasks
+RTask.new
