@@ -99,6 +99,17 @@ Rakuten Webservice client library
 
     FileUtils.remove_entry(to_base)
   end
+
+  def rdoc
+    require 'rake/rdoctask'
+    Rake::RDocTask.new do |doc|
+      doc.title = "#{@package}-#{@version} documentation"
+      doc.main = "README.rdoc"
+      doc.rdoc_files.include(manifest)
+      doc.options << "--line-numbers" << "--inline-source" << "-c UTF-8"
+      yield doc if block_given?
+    end
+  end
 end
 
 # create rtask tasks
