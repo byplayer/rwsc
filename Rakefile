@@ -59,7 +59,7 @@ Rakuten Webservice client library
       s.authors = ["byplayer", "takayoshi kohayakawa"]
       s.email = ["byplayer100@gmail.com",
                  "takayoshi.kohayakawa@mail.rakuten.co.jp"]
-      s.homepage = "http://webservice.rakuten.co.jp/"
+      s.homepage = "http://wiki.github.com/byplayer/rwsc"
 
       s.files = PKG_FILES.to_a
 
