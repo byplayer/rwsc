@@ -51,6 +51,7 @@ class RTask
   def init_spec
     ::Gem::Specification.new do |s|
       s.name = "rwsc"
+      s.rubyforge_project = s.name
       s.version = CURRENT_VERSION
       s.summary = "Rakuten Webservice client library"
       s.description = <<-EOS
