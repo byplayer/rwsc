@@ -2,3 +2,5 @@
 *.zip
 *.gem
 /html
+.DS_Store
+coverage
