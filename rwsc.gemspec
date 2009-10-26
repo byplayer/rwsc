@@ -44,12 +44,11 @@ Rakuten Webservice client library
      "spec/rwsc/version_spec.rb",
      "spec/spec_helper.rb"
   ]
-  s.has_rdoc = true
   s.homepage = %q{http://wiki.github.com/byplayer/rwsc}
   s.rdoc_options = ["--charset=UTF-8", "--line-numbers", "--inline-source", "--main", "README.rdoc", "-c UTF-8"]
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{rwsc}
-  s.rubygems_version = %q{1.3.2}
+  s.rubygems_version = %q{1.3.5}
   s.summary = %q{Rakuten Webservice client library}
   s.test_files = [
     "spec/matchers/utils/be_underscore_of.rb",
