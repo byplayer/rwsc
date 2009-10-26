@@ -71,11 +71,16 @@ Rakuten Webservice client library
             "--main" << "README.rdoc" << "-c UTF-8"
     
     gemspec.extra_rdoc_files = ["README.rdoc"]
-
     gemspec.add_dependency('nokogiri')
     gemspec.add_dependency('rspec')
-
   end
+
+  Jeweler::GemcutterTasks.new
+  
+  Jeweler::RubyforgeTasks.new do |rubyforge|
+    rubyforge.doc_task = "rdoc"
+  end
+  
 rescue LoadError
   puts "Jeweler not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com"
 end
