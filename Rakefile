@@ -24,6 +24,22 @@ Spec::Rake::SpecTask.new('spec:rcov') do |t|
   t.rcov = true
 end
 
+
+require 'rake/rdoctask'
+Rake::RDocTask.new do |rdoc|
+  begin
+    version = File.read('VERSION').chomp
+  rescue
+    version = "0.0.0"
+    puts "No version is set in file VERSION.  Set by default to #{version}"
+  end
+
+  rdoc.rdoc_dir = 'rdoc'
+  rdoc.title = "rwsc #{version}"
+  rdoc.rdoc_files.include('README*')
+  rdoc.rdoc_files.include('lib/**/*.rb')
+end
+
 # gem tasks
 PKG_FILES = FileList[
   '[A-Z]*',
