@@ -6,6 +6,8 @@ module Rwsc
   # = BooksTotalSearch class
   # this class is BooksTotalSearch API wrapper .
   class BooksTotalSearch < ResultItem
+		include Rwsc::Utils::Pager
+
     # == find item .
     def self.find(opts)
       if opts.nil?
@@ -48,7 +50,9 @@ module Rwsc
 										:carrier,
 										:orFlag,
 										:NGKeyword,
-										:genreInformationFlag
+										:genreInformationFlag,
+										:version,
+										:operation
                    ]
 
     def self.accept_items
