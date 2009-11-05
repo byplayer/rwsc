@@ -12,8 +12,7 @@ require 'rwsc'
 
 3.  Use the gem to make a call to the API:
 
-result_object = Rwsc::ItemSearch.find(:keyword => "cool stuff that they only have in Japan",
-　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　:developerId => [Your_Rakuten_Developer_ID]*)
+result_object = Rwsc::ItemSearch.find(:keyword => "cool stuff that they only have in Japan", :developerId => [Your_Rakuten_Developer_ID]*)
 
 Other params to try:
   :developerId
