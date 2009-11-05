@@ -9,9 +9,13 @@ module Rwsc
 
     # = this class is Rakuten WebSearch web client .
     class WebClient
+			def initialize operation
+				@operation = operation
+			end
+			
       # == this method call webservice api .
       def self.get_result(opts)
-        WebClient.new.call_http(opts)
+        WebClient.new(opts[:operation]).call_http(opts)
       end
 
       # == try proxy connect
@@ -42,13 +46,14 @@ module Rwsc
 
       # == parse xml items
       def parse_result(doc)
-        @item_search = ItemSearch.new
+        #@item_search = ItemSearch.new
+				@result_item = eval("#{@operation}.new")
         parse_status(doc)
         parse_args(doc)
         parse_common_info(doc)
         parse_items(doc)
 
-        @item_search
+        @result_item
       end
 
       # == parse status
@@ -59,11 +64,11 @@ module Rwsc
         status.status = first_item_content(doc, '/Response/header:Header/Status')
         status.status_msg =
           first_item_content(doc, '/Response/header:Header/StatusMsg')
-        @item_search.status = status
+        @result_item.status = status
 
-        unless @item_search.status.status == Status::SUCCESS
-          raise StatusError.new("API Error(#{@item_search.status.status}):" +
-                          "#{@item_search.status.status_msg}")
+        unless @result_item.status.status == Status::SUCCESS
+          raise StatusError.new("API Error(#{@result_item.status.status}):" +
+                          "#{@result_item.status.status_msg}")
         end
       end
 
@@ -76,7 +81,7 @@ module Rwsc
                           a.content)
         end
 
-        @item_search.args = args
+        @result_item.args = args
       end
 
       # == parse common info
@@ -90,9 +95,9 @@ module Rwsc
           'carrier' => 'carrier',
           'pageCount' => 'page_count',
         }.each do |xml_tag, func|
-          @item_search.send("#{func}=",
+          @result_item.send("#{func}=",
             first_item_content(doc,
-              "/Response/Body/itemSearch:ItemSearch/#{xml_tag}"))
+              "/Response/Body/#{@operation[0,1].downcase + @operation[1,@operation.length]}:#{@operation}/#{xml_tag}"))
         end
       end
 
@@ -100,7 +105,7 @@ module Rwsc
       def parse_items(doc)
         items = []
 
-        doc.xpath('/Response/Body/itemSearch:ItemSearch/Items/Item',
+        doc.xpath("/Response/Body/#{@operation[0,1].downcase + @operation[1,@operation.length]}:#{@operation}/Items/Item",
                   doc.namespaces).each do |i|
           item = ResultItem.new
 
@@ -113,7 +118,7 @@ module Rwsc
           items << item
         end
 
-        @item_search.items = items
+        @result_item.items = items
       end
 
       # == get first item
