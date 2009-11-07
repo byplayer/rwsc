@@ -4,18 +4,18 @@ RWCはRakuten Web Service Clientの略で、楽天ウエブサービスのRuby�
 READMEでは基本的な使い方を説明します。
 
 == Step 1. gemのインストール
-sudo gem install rwsc
+ sudo gem install rwsc
 
 == Step 2.  Require the gem
-require 'rubygems'
-require 'rwsc'
+ require 'rubygems'
+ require 'rwsc'
 
 インストール環境によっては、require 'rubygems'が不要です。
 
 == Step 3. gemを使って、APIを呼び出す
 
-　result_object = Rwsc::ItemSearch.find(:keyword => "cool stuff that they only have in Japan",
-　　　　　　　　　　　　　　　　　　　　:developerId => [Your_Rakuten_Developer_ID]*)
+ result_object = Rwsc::ItemSearch.find(:keyword => "cool stuff that they only have in Japan",
+                                       :developerId => [Your_Rakuten_Developer_ID]*)
 
  Other params to try:
    :developerId
@@ -42,17 +42,17 @@ require 'rwsc'
 検索結果データは、ResultItemクラスのインスタンスになります。
 アンダースコア区切りのメソッドを呼び出すことで、検索結果を取得できます。
 
-Anyways, these are the keys of the big data_hash:
-"items"
-"hits"
-"args"
-"status"
-"carrier"
-"page_count"
-"last"
-"first"
-"count"
-"page"
+ Anyways, these are the keys of the big data_hash:
+ "items"
+ "hits"
+ "args"
+ "status"
+ "carrier"
+ "page_count"
+ "last"
+ "first"
+ "count"
+ "page"
 
 詳細の情報については、以下の楽天ウェブサービスのページAPIページを参照してください。
 
