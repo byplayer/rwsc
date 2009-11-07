@@ -3,14 +3,14 @@ RWSC stands for Rakuten Web Service Client.  This is the Rakuten Web Service API
 
 This README covers the basic usage.
 
-Step 1.  Install the gem:
+== Step 1.  Install the gem:
 sudo gem install rwsc
 
-Step 2.  Require the gem (You may need to also require rubygems, depending on your setup):
+== Step 2.  Require the gem (You may need to also require rubygems, depending on your setup):
 require 'rubygems'
 require 'rwsc'
 
-Step 3.  Use the gem to make a call to the API:
+== Step 3.  Use the gem to make a call to the API:
 
 result_object = Rwsc::ItemSearch.find(:keyword => "cool stuff that they only have in Japan", :developerId => [Your_Rakuten_Developer_ID]*)
 
@@ -36,7 +36,7 @@ Other params to try:
   :purchaseType
 
 
-Step 4.  Get a response:
+== Step 4.  Get a response:
 
 The information you get is in a data_hash, wrapped in the result_object.  To access any underlying data, just
 call the keys of the hash as methods on your result_object. (ie. result_object.items)
@@ -55,12 +55,16 @@ Anyways, these are the keys of the big data_hash:
 "count"
 "page"
 
-
 For more info on what is supported by this particular API (Item search), check out http://webservice.rakuten.co.jp/api/itemsearch/ **
 
 With google translate as your friend, you should be able to glean the request params and response body.  
 
+== Use of RWSC through a Proxy
 
+When you have to connect through a proxy server, you should also set these variables before your call to Rwsc::ItemSearch.find:
+
+ Rwsc::Config.proxy_host = "YOUR_PROXY_HOST"
+ Rwsc::Config.proxy_port = YOUR_PROXY_PORT
 
 
 ------------------------------------------------------------------------------------------
@@ -69,7 +73,7 @@ You can click the top link on the blue box in the upper left corner on this page
 http://webservice.rakuten.co.jp/
 
 With good luck and google translate, you might be able to get by.  
-But feel free to get in touch with evanburchard if you have any questions.
+But feel free to get in touch with github.com/evanburchard if you have any questions.
 
 
-**And yes, those are 24 other APIs to the left, just waiting to be implemented! 
+**And yes, those are 24 other APIs to the left, just waiting to be implemented.  Fork away! 
