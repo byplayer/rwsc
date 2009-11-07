@@ -55,12 +55,16 @@ Anyways, these are the keys of the big data_hash:
 "count"
 "page"
 
-
 For more info on what is supported by this particular API (Item search), check out http://webservice.rakuten.co.jp/api/itemsearch/ **
 
 With google translate as your friend, you should be able to glean the request params and response body.  
 
+== Use of RWSC through a Proxy
 
+When you have to connect through a proxy server, you should also set these variables before your call to Rwsc::ItemSearch.find:
+
+ Rwsc::Config.proxy_host = "YOUR_PROXY_HOST"
+ Rwsc::Config.proxy_port = YOUR_PROXY_PORT
 
 
 ------------------------------------------------------------------------------------------
