@@ -38,17 +38,17 @@ module Rwsc
                     :developerId,
                     :affiliateId,
                     :keyword,
-										:booksGenreId,
-										:hits,
-										:page,
-										:availability,
-										:outOfStockFlag,
-										:sort,
-										:field,
-										:carrier,
-										:orFlag,
-										:NGKeyword,
-										:genreInformationFlag
+                    :booksGenreId,
+                    :hits,
+                    :page,
+                    :availability,
+                    :outOfStockFlag,
+                    :sort,
+                    :field,
+                    :carrier,
+                    :orFlag,
+                    :NGKeyword,
+                    :genreInformationFlag
                    ]
 
     def self.accept_items

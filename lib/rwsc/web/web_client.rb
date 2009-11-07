@@ -9,10 +9,10 @@ module Rwsc
 
     # = this class is Rakuten WebSearch web client .
     class WebClient
-			def initialize operation
-				@operation = operation
-			end
-			
+      def initialize operation
+        @operation = operation
+      end
+
       # == this method call webservice api .
       def self.get_result(opts)
         WebClient.new(opts[:operation]).call_http(opts)
@@ -47,7 +47,7 @@ module Rwsc
       # == parse xml items
       def parse_result(doc)
         #@item_search = ItemSearch.new
-				@result_item = eval("#{@operation}.new")
+        @result_item = eval("#{@operation}.new")
         parse_status(doc)
         parse_args(doc)
         parse_common_info(doc)
