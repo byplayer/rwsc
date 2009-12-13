@@ -6,6 +6,9 @@ module Rwsc
     MINOR = 0
     TINY  = 2
 
-    STRING = [MAJOR, MINOR, TINY].join('.')
+    STRING =
+      File.open(
+        File.join(
+          File.dirname(__FILE__), '..', '..', 'VERSION'), 'r').gets.chomp
   end
 end
