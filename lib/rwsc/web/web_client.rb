@@ -15,9 +15,10 @@ module Rwsc
 
       # == this method call webservice api .
       def self.get_result(opts)
-        WebClient.new(opts[:operation]).call_http(opts)
+        parse_result(WebClient.new(opts[:operation]).call_http(opts).body)
       end
 
+      private
       # == try proxy connect
       # use proxy connect if set proxy configuration .
       def call_http(opts)
@@ -25,13 +26,11 @@ module Rwsc
 
         Net::HTTP.Proxy(Config.proxy_host,
                         Config.proxy_port).start(uri.host, uri.port) do |http|
-          res = http.get("#{uri.path}?#{uri.query}",
+          return http.get("#{uri.path}?#{uri.query}",
                          {'User-Agent' => Rwsc::CONST::USER_AGENT})
-          parse_result(Nokogiri::XML(res.body))
         end
       end
 
-      private
       # == generate uri object from opts .
       def generate_uri(opts)
         url = Rwsc::CONST::WS_URL + "?"
