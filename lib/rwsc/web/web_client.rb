@@ -15,19 +15,24 @@ module Rwsc
 
       # == this method call webservice api .
       def self.get_result(opts)
-        parse_result(WebClient.new(opts[:operation]).call_http(opts).body)
+        return WebClient.new(opts[:operation]).get_result(opts)
+      end
+
+      def get_result(opts)
+        parse_result(get_api_result(opts).body)
       end
 
       private
       # == try proxy connect
       # use proxy connect if set proxy configuration .
-      def call_http(opts)
+      def get_api_result(opts)
         uri = generate_uri(opts)
 
         Net::HTTP.Proxy(Config.proxy_host,
                         Config.proxy_port).start(uri.host, uri.port) do |http|
-          return http.get("#{uri.path}?#{uri.query}",
+          res = http.get("#{uri.path}?#{uri.query}",
                          {'User-Agent' => Rwsc::CONST::USER_AGENT})
+          return res
         end
       end
 
@@ -44,13 +49,17 @@ module Rwsc
       end
 
       # == parse xml items
-      def parse_result(doc)
+      def parse_result(xml_string)
+        @doc = Nokogiri::XML(xml_string)
+        @namespaces = {}
+        @doc.traverse { |d| @namespaces.merge! d.namespaces }
+
         #@item_search = ItemSearch.new
         @result_item = eval("#{@operation}.new")
-        parse_status(doc)
-        parse_args(doc)
-        parse_common_info(doc)
-        parse_items(doc)
+        parse_status()
+        parse_args()
+        parse_common_info()
+        parse_items()
 
         @result_item
       end
@@ -58,11 +67,11 @@ module Rwsc
       # == parse status
       # if status is not success, this function raise
       #
-      def parse_status(doc)
+      def parse_status()
         status = Status.new
-        status.status = first_item_content(doc, '/Response/header:Header/Status')
+        status.status = first_item_content('/Response/header:Header/Status')
         status.status_msg =
-          first_item_content(doc, '/Response/header:Header/StatusMsg')
+          first_item_content('/Response/header:Header/StatusMsg')
         @result_item.status = status
 
         unless @result_item.status.status == Status::SUCCESS
@@ -72,9 +81,9 @@ module Rwsc
       end
 
       # == parse ARG items
-      def parse_args(doc)
+      def parse_args()
         args = []
-        doc.xpath('/Response/header:Header/Args/Arg', doc.namespaces).each do |a|
+        @doc.xpath('/Response/header:Header/Args/Arg', @namespaces).each do |a|
           args << Arg.new(a.attribute('key'),
                           a.attribute('value'),
                           a.content)
@@ -84,7 +93,7 @@ module Rwsc
       end
 
       # == parse common info
-      def parse_common_info(doc)
+      def parse_common_info()
         {
           'count' => 'count',
           'page' => 'page',
@@ -95,17 +104,17 @@ module Rwsc
           'pageCount' => 'page_count',
         }.each do |xml_tag, func|
           @result_item.send("#{func}=",
-            first_item_content(doc,
+            first_item_content(
               "/Response/Body/#{@operation[0,1].downcase + @operation[1,@operation.length]}:#{@operation}/#{xml_tag}"))
         end
       end
 
       # == parse items
-      def parse_items(doc)
+      def parse_items()
         items = []
 
-        doc.xpath("/Response/Body/#{@operation[0,1].downcase + @operation[1,@operation.length]}:#{@operation}/Items/Item",
-                  doc.namespaces).each do |i|
+        @doc.xpath("/Response/Body/#{@operation[0,1].downcase + @operation[1,@operation.length]}:#{@operation}/Items/Item",
+                  @namespaces).each do |i|
           item = ResultItem.new
 
           i.children.each do |element|
@@ -122,8 +131,8 @@ module Rwsc
 
       # == get first item
       # if item not exists, return nil
-      def first_item(doc, xpath)
-        items = doc.xpath(xpath, doc.namespaces)
+      def first_item(xpath)
+        items = @doc.xpath(xpath, @namespaces)
         if items && !items.empty?
           return items.first
         end
@@ -133,8 +142,8 @@ module Rwsc
 
       # == get first item content
       # if item not exist, return nil
-      def first_item_content(doc, xpath)
-        item = first_item(doc, xpath)
+      def first_item_content(xpath)
+        item = first_item(xpath)
         if item
           return item.content
         end
