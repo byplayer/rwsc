@@ -7,7 +7,6 @@ require 'jeweler'
 # return rspec options
 def set_speck_opt(t)
   t.spec_files = FileList['spec/**/*_spec.rb']
-  t.spec_opts = ['--color']
   t.warning = true
 end
 
@@ -69,18 +68,18 @@ Rakuten Webservice client library
     gemspec.require_path = 'lib'
     gemspec.rdoc_options << '--line-numbers' << '--inline-source' <<
             "--main" << "README.rdoc" << "-c UTF-8"
-    
+
     gemspec.extra_rdoc_files = ["README.rdoc"]
     gemspec.add_dependency('nokogiri')
     gemspec.add_dependency('rspec')
   end
 
   Jeweler::GemcutterTasks.new
-  
+
   Jeweler::RubyforgeTasks.new do |rubyforge|
     rubyforge.doc_task = "rdoc"
   end
-  
+
 rescue LoadError
   puts "Jeweler not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com"
 end
