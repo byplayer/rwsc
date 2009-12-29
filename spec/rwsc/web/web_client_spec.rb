@@ -29,4 +29,9 @@ describe Rwsc::Web::WebClient do
   }
 
   it { subject.items.size.should == 30 }
+  it { subject.status.status.should == "Success" }
+  it { subject.args.size.should == 7 }
+  it { subject.args[0].key.should == "User-Agent" }
+  it { subject.args[0].value.should == Rwsc::CONST::USER_AGENT }
+  it { subject.args[0].result.should == "true" }
 end
