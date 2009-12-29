@@ -84,8 +84,8 @@ module Rwsc
       def parse_args()
         args = []
         @doc.xpath('/Response/header:Header/Args/Arg', @namespaces).each do |a|
-          args << Arg.new(a.attribute('key'),
-                          a.attribute('value'),
+          args << Arg.new(a['key'],
+                          a['value'],
                           a.content)
         end
 
