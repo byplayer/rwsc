@@ -2,7 +2,13 @@
 require 'rubygems'
 require 'rake'
 require 'spec/rake/spectask'
-require 'jeweler'
+require 'rake/rdoctask'
+
+begin
+  require 'darkfish-rdoc'
+rescue
+  puts "please install darkfish-doc"
+end
 
 # return rspec options
 def set_speck_opt(t)
@@ -23,8 +29,6 @@ Spec::Rake::SpecTask.new('spec:rcov') do |t|
   t.rcov = true
 end
 
-
-require 'rake/rdoctask'
 Rake::RDocTask.new do |rdoc|
   begin
     version = File.read('VERSION').chomp
@@ -37,6 +41,11 @@ Rake::RDocTask.new do |rdoc|
   rdoc.title = "rwsc #{version}"
   rdoc.rdoc_files.include('README*')
   rdoc.rdoc_files.include('lib/**/*.rb')
+
+  rdoc.options += [
+    '-SHN',
+    '-f', 'darkfish',  # This is the important bit
+  ]
 end
 
 # gem tasks
