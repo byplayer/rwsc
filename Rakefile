@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 require 'rubygems'
+
+gem 'rdoc'
+require 'rdoc'
+
 require 'rake'
 require 'spec/rake/spectask'
 require 'rake/rdoctask'
-
-begin
-  require 'darkfish-rdoc'
-rescue
-  puts "please install darkfish-doc"
-end
 
 # return rspec options
 def set_speck_opt(t)
@@ -43,7 +41,7 @@ Rake::RDocTask.new do |rdoc|
   rdoc.rdoc_files.include('lib/**/*.rb')
 
   rdoc.options += [
-    '-SHN',
+    '-H' , '-a', '-t', '-d',
     '-f', 'darkfish',  # This is the important bit
   ]
 end
