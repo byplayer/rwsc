@@ -50,48 +50,21 @@ Rake::RDocTask.new do |rdoc|
   ]
 end
 
-# gem tasks
-PKG_FILES = FileList[
-  '[A-Z]*',
-  'bin/**/*',
-  'lib/**/*.rb',
-  'test/**/*.rb',
-  'doc/**/*',
-  'spec/**/*.rb',
-]
-
-begin
-  require 'jeweler'
-  Jeweler::Tasks.new do |gemspec|
-    gemspec.name = "rwsc"
-    gemspec.rubyforge_project = gemspec.name
-    gemspec.summary = "Rakuten Webservice client library"
-    gemspec.description = "<<-EOS
-Rakuten Webservice client library
-    EOS"
-    gemspec.email = ["byplayer100@gmail.com",
-               "takayoshi.kohayakawa@mail.rakuten.co.jp"]
-    gemspec.homepage = "http://wiki.github.com/byplayer/rwsc"
-    gemspec.authors = ["byplayer", "takayoshi kohayakawa"]
-
-    gemspec.files = PKG_FILES.to_a
-
-    gemspec.require_path = 'lib'
-    gemspec.rdoc_options << '--line-numbers' << '--inline-source' <<
-            "--main" << "README.rdoc" << "-c UTF-8"
-
-    gemspec.extra_rdoc_files = ["README.rdoc"]
-    gemspec.add_dependency('nokogiri')
-    gemspec.add_dependency('rspec')
+# gem task
+def gemspec
+  @gemspec ||= begin
+    file = File.expand_path('../rwsc.gemspec', __FILE__)
+    eval(File.read(file), binding, file)
   end
-
-  Jeweler::GemcutterTasks.new
-
-  Jeweler::RubyforgeTasks.new do |rubyforge|
-    rubyforge.doc_task = "rdoc"
-  end
-
-rescue LoadError
-  puts "Jeweler not available. Install it with: sudo gem install technicalpickles-jeweler -s http://gems.github.com"
 end
 
+begin
+  require 'rake/gempackagetask'
+rescue LoadError
+  task(:gem) { $stderr.puts '`gem install rake` to package gems' }
+else
+  Rake::GemPackageTask.new(gemspec) do |pkg|
+    pkg.gem_spec = gemspec
+  end
+  task :gem => :gemspec
+end
