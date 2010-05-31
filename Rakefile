@@ -5,26 +5,30 @@ gem 'rdoc'
 require 'rdoc'
 
 require 'rake'
-require 'spec/rake/spectask'
 require 'rake/rdoctask'
 
-# return rspec options
-def set_speck_opt(t)
-  t.spec_files = FileList['spec/**/*_spec.rb']
-  t.warning = true
-end
+begin
+  require 'spec/rake/spectask'
+rescue LoadError
+else
+  # return rspec options
+  def set_speck_opt(t)
+    t.spec_files = FileList['spec/**/*_spec.rb']
+    t.warning = true
+  end
 
-# rspec tasks
-desc "Run all specs"
-Spec::Rake::SpecTask.new('spec') do |t|
-  set_speck_opt t
-end
+  # rspec tasks
+  desc "Run all specs"
+  Spec::Rake::SpecTask.new('spec') do |t|
+    set_speck_opt t
+  end
 
-# rspec coverate tasks
-desc "Run rcov"
-Spec::Rake::SpecTask.new('spec:rcov') do |t|
-  set_speck_opt t
-  t.rcov = true
+  # rspec coverate tasks
+  desc "Run rcov"
+  Spec::Rake::SpecTask.new('spec:rcov') do |t|
+    set_speck_opt t
+    t.rcov = true
+  end
 end
 
 Rake::RDocTask.new do |rdoc|
