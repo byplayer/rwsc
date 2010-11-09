@@ -1,0 +1,77 @@
+= RWSC
+RWCはRakuten Web Service Clientの略で、楽天ウエブサービスのRubyラッパライブラリです。
+
+READMEでは基本的な使い方を説明します。
+
+== Step 1. gemのインストール
+ sudo gem install rwsc
+
+== Step 2.  Require the gem
+ require 'rubygems'
+ require 'rwsc'
+
+インストール環境によっては、require 'rubygems'が不要です。
+
+== Step 3. gemを使って、APIを呼び出す
+
+ result_object = Rwsc::ItemSearch.find(:keyword => "cool stuff that they only have in Japan",
+                                       :developerId => [Your_Rakuten_Developer_ID]*)
+
+ Other params to try:
+   :developerId
+   :affiliateId
+   :keyword
+   :shopCode
+   :genreId
+   :catalogCode,
+   :hits
+   :page
+   :sort
+   :minPrice
+   :maxPrice
+   :availability
+   :field
+   :carrier
+   :imageFlag
+   :orFlag
+   :NGKeyword
+   :genreInformationFlag
+   :purchaseType
+
+== Step 4.  検索結果を取得する
+検索結果データは、ResultItemクラスのインスタンスになります。
+アンダースコア区切りのメソッドを呼び出すことで、検索結果を取得できます。
+
+ Anyways, these are the keys of the big data_hash:
+ "items"
+ "hits"
+ "args"
+ "status"
+ "carrier"
+ "page_count"
+ "last"
+ "first"
+ "count"
+ "page"
+
+詳細の情報については、以下の楽天ウェブサービスのページAPIページを参照してください。
+
+http://webservice.rakuten.co.jp/api/itemsearch/
+
+== Proxy越しの通信
+
+proxyサーバを通してしか通信できない環境の場合は、
+
+ Rwsc::Config.proxy_host = "YOUR_PROXY_HOST"
+ Rwsc::Config.proxy_port = YOUR_PROXY_PORT
+
+を事前に設定しておくことで、プロキシサーバを通しての通信が行えます。
+
+------------------------------------------------------------------------------------------
+\*Rakuten_Developer_IDとは？
+
+ 以下のリンクから、ユーザ登録を行うことで、ディベロッパーIDを取得できます。
+http://webservice.rakuten.co.jp/
+
+** 他にも24のAPIがあります。実装中ですのでお待ちください。
+
