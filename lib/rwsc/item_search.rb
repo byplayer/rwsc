@@ -35,6 +35,14 @@ module Rwsc
                     :NGKeyword,
                     :genreInformationFlag,
                     :purchaseType,
+                    :shipOverseasFlag,
+                    :shipOverseasArea,
+                    :asurakuFlag,
+                    :asurakuArea,
+                    :pointRateFlag,
+                    :pointRate,
+                    :postageFlag,
+                    :creditCardFlag
                    ]
 
     def self.accept_items
