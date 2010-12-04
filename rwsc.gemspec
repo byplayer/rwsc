@@ -8,9 +8,7 @@ Gem::Specification.new do |s|
   s.version = Rwsc::VERSION::STRING
   s.authors = ["byplayer", "takayoshi kohayakawa"]
   s.date = %q{2009-12-28}
-  s.description = <<EOS
-Rakuten Webservice client library
-EOS
+  s.description = "Rakuten Webservice client library"
   s.email = ["byplayer100@gmail.com", "takayoshi.kohayakawa@mail.rakuten.co.jp"]
   s.extra_rdoc_files = [
     "README.rdoc"
