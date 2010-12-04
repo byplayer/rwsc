@@ -8,27 +8,15 @@ require 'rake'
 require 'rake/rdoctask'
 
 begin
-  require 'spec/rake/spectask'
+  require 'rspec/core/rake_task'
 rescue LoadError
+  puts "no rspec"
 else
-  # return rspec options
-  def set_speck_opt(t)
-    t.spec_files = FileList['spec/**/*_spec.rb']
-    t.warning = true
+  RSpec::Core::RakeTask.new(:spec) do |t|
+    t.ruby_opts="-w"
+    t.rcov = false
   end
-
-  # rspec tasks
-  desc "Run all specs"
-  Spec::Rake::SpecTask.new('spec') do |t|
-    set_speck_opt t
-  end
-
-  # rspec coverate tasks
-  desc "Run rcov"
-  Spec::Rake::SpecTask.new('spec:rcov') do |t|
-    set_speck_opt t
-    t.rcov = true
-  end
+  task :default => :spec
 end
 
 Rake::RDocTask.new do |rdoc|
