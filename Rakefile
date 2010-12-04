@@ -16,6 +16,11 @@ else
     t.ruby_opts="-w"
     t.rcov = false
   end
+
+  RSpec::Core::RakeTask.new('spec:rcov') do |t|
+    t.ruby_opts="-w"
+    t.rcov = true
+  end
   task :default => :spec
 end
 
