@@ -30,7 +30,7 @@ Gem::Specification.new do |s|
   s.summary = %q{Rakuten Webservice client library}
   s.test_files = Dir.glob("spec/**/*")
 
-  s.add_dependency("nokogiri", [">= 1.4.0"])
-  s.add_dependency("rspec", [">= 1.3.0"])
+  s.add_dependency("nokogiri", [">= 1.4.4"])
+  s.add_dependency("rspec", [">= 2.2.0"])
 end
 
