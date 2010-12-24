@@ -20,7 +20,7 @@ Other params to try:
   :keyword
   :shopCode
   :genreId
-  :catalogCode,
+  :catalogCode
   :hits
   :page
   :sort
@@ -34,6 +34,14 @@ Other params to try:
   :NGKeyword
   :genreInformationFlag
   :purchaseType
+  :shipOverseasFlag
+  :shipOverseasArea
+  :asurakuFlag
+  :asurakuArea
+  :pointRateFlag
+  :pointRate
+  :postageFlag
+  :creditCardFlag
 
 
 == Step 4.  Get a response:
