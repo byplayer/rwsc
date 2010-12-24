@@ -1,30 +1,12 @@
 # -*- coding: utf-8 -*-
-require 'rwsc/web/web_client'
+require 'rwsc/searcher'
+require 'rwsc/result_item'
 
 module Rwsc
   # = ItemSearch class
   # this class is ItemSearch API wrapper .
   class ItemSearch < ResultItem
-    # == find item .
-    def self.find(opts)
-      if opts.nil?
-        raise ArgError.new('no options')
-      end
-
-      self.must_items.each do |item|
-        unless opts.include? item
-          raise ArgError.new("#{item.to_s} needed")
-        end
-      end
-
-      opts.each do |key, val|
-        unless accept_items.include? key
-          raise ArgError.new("#{key.to_s} is invalid option")
-        end
-      end
-
-      self.rws_call(opts.merge(self.add_rwsc_opts))
-    end
+    extend Searcher
 
     private
     MUST_ITEMS = [:developerId]
@@ -53,6 +35,14 @@ module Rwsc
                     :NGKeyword,
                     :genreInformationFlag,
                     :purchaseType,
+                    :shipOverseasFlag,
+                    :shipOverseasArea,
+                    :asurakuFlag,
+                    :asurakuArea,
+                    :pointRateFlag,
+                    :pointRate,
+                    :postageFlag,
+                    :creditCardFlag
                    ]
 
     def self.accept_items
@@ -68,11 +58,6 @@ module Rwsc
     # == get additional Rakuten web service call option
     def self.add_rwsc_opts
       ADD_RWSC_OPTS
-    end
-
-    # == Rakuten web service call function
-    def self.rws_call(opts)
-      Rwsc::Web::WebClient.get_result(opts)
     end
   end
 end

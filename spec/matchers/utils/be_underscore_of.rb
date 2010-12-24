@@ -1,4 +1,4 @@
-Spec::Matchers.define :be_underscore_of do |expected|
+RSpec::Matchers.define :be_underscore_of do |expected|
   match do |actual|
     Rwsc::Utils::StringUtils::underscore(actual)  == expected
   end
