@@ -6,10 +6,10 @@ require 'rwsc/version'
 Gem::Specification.new do |s|
   s.name = %q{rwsc}
   s.version = Rwsc::VERSION::STRING
-  s.authors = ["byplayer", "takayoshi kohayakawa"]
+  s.authors = ["byplayer", "takayoshi kohayakawa", "Tatsuya Sato"]
   s.date = %q{2009-12-28}
   s.description = "Rakuten Webservice client library"
-  s.email = ["byplayer100@gmail.com", "takayoshi.kohayakawa@mail.rakuten.co.jp"]
+  s.email = ["byplayer100@gmail.com", "takayoshi.kohayakawa@mail.rakuten.co.jp", "satoryu.1981@gmail.com"]
   s.extra_rdoc_files = [
     "README.rdoc"
   ]
