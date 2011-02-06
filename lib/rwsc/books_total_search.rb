@@ -29,6 +29,7 @@ module Rwsc
                     :field,
                     :carrier,
                     :orFlag,
+                    :chirayomiFlag,
                     :NGKeyword,
                     :genreInformationFlag
                    ]
@@ -37,7 +38,7 @@ module Rwsc
       ACCEPT_ITEMS
     end
 
-    API_VERSION = '2010-03-18'
+    API_VERSION = '2011-01-27'
     # == Additional Rakuten web service call option
     ADD_RWSC_OPTS = {
       :version => self::API_VERSION,
